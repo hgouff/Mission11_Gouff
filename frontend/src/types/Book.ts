@@ -1,3 +1,5 @@
+
+//sets what we are pulling in from the json file
 export interface Book{
     bookID: number;
     title: string;

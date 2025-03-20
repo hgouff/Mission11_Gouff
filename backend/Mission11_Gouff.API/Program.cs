@@ -10,9 +10,11 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
 builder.Services.AddDbContext<BookDbContext>(options=> 
     options.UseSqlite(builder.Configuration.GetConnectionString("BookConnection")));
 
+//
 builder.Services.AddCors();
 
 var app = builder.Build();
@@ -24,6 +26,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+//enables cores to be used by the rest of the application
 app.UseCors(x =>x.WithOrigins("http://localhost:3000"));
 
 app.UseHttpsRedirection();
