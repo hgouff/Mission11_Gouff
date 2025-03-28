@@ -15,7 +15,17 @@ builder.Services.AddDbContext<BookDbContext>(options=>
     options.UseSqlite(builder.Configuration.GetConnectionString("BookConnection")));
 
 //
-builder.Services.AddCors();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:3000")
+                .AllowCredentials()
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+});
 
 var app = builder.Build();
 
@@ -27,7 +37,7 @@ if (app.Environment.IsDevelopment())
 }
 
 //enables cores to be used by the rest of the application
-app.UseCors(x =>x.WithOrigins("http://localhost:3000"));
+app.UseCors("AllowFrontend");
 
 app.UseHttpsRedirection();
 

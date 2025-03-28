@@ -23,6 +23,17 @@ public class BookController : ControllerBase
     
     //uses Queryable for sorting functionality
     {
+        string? favbook = Request.Cookies["FavoriteBook"];
+        Console.WriteLine("---------COOKIE--------- \n"  + favbook);
+        
+        HttpContext.Response.Cookies.Append("FavoriteBook","Les Miserables", new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Strict,
+                Expires = DateTime.Now.AddMinutes(1)
+            });
+        
         var query = _context.Books.AsQueryable();
         if (sortByTitleAsc)
         {
@@ -43,4 +54,16 @@ public class BookController : ControllerBase
             TotalNumBooks = totalNumBooks
         });
     }
+
+    [HttpGet("GetBookCategory")]
+    public IActionResult GetBookCategory()
+    {
+        var bookCategory = _context.Books
+            .Select(b => b.Category)
+            .Distinct()
+            .ToList();
+        
+        return Ok(bookCategory);
+    }
+    
 }
