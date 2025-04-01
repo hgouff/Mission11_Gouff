@@ -19,39 +19,43 @@ public class BookController : ControllerBase
     
     //get method
     [HttpGet("AllBooks")]
-    public IActionResult GetBooks(int pageHowMany = 10, int pageNum = 1, bool sortByTitleAsc= false)
-    
-    //uses Queryable for sorting functionality
+    public IActionResult GetBooks(int pageHowMany = 10, int pageNum = 1, bool sortByTitleAsc = false, [FromQuery] List<string>? bookTypes = null)
     {
-        string? favbook = Request.Cookies["FavoriteBook"];
-        Console.WriteLine("---------COOKIE--------- \n"  + favbook);
-        
-        HttpContext.Response.Cookies.Append("FavoriteBook","Les Miserables", new CookieOptions
-            {
-                HttpOnly = true,
-                Secure = true,
-                SameSite = SameSiteMode.Strict,
-                Expires = DateTime.Now.AddMinutes(1)
-            });
-        
         var query = _context.Books.AsQueryable();
+
+        if (bookTypes != null && bookTypes.Any())
+        {
+            query = query.Where(b => bookTypes.Contains(b.Category)); 
+        }
+
         if (sortByTitleAsc)
         {
             query = query.OrderBy(b => b.Title);
         }
-        
-        //lets user go from page to page
-        var books =query
+
+        // Pagination
+        var books = query
             .Skip((pageNum - 1) * pageHowMany)
             .Take(pageHowMany)
             .ToList();
-        
-        var totalNumBooks = _context.Books.Count();
-        
+
+        var totalNumBooks = query.Count();
+
+        string? favBook = Request.Cookies["FavoriteBook"];
+
+        HttpContext.Response.Cookies.Append("FavoriteBook", "Les Miserables", new CookieOptions
+        {
+            HttpOnly = true,
+            Secure = true,
+            SameSite = SameSiteMode.Strict,
+            Expires = DateTime.Now.AddMinutes(1)
+        });
+
         return Ok(new
         {
             Books = books,
-            TotalNumBooks = totalNumBooks
+            TotalNumBooks = totalNumBooks,
+            FavoriteBook = favBook // Include the cookie value in the response
         });
     }
 

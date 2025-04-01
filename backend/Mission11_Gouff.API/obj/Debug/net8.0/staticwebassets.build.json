@@ -1,12 +1,11 @@
 {
   "Version": 1,
-  "Hash": "7pQ3M0wQlZGGsqlZ7hH/ZISNzTUM9f1Scl/IakVSNVM=",
+  "Hash": "64jldD+vyMYgWGi3icrz8rBbSBKbSAbFCBuAGKG0nak=",
   "Source": "Mission11_Gouff.API",
   "BasePath": "_content/Mission11_Gouff.API",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
   "DiscoveryPatterns": [],
-  "Assets": [],
-  "Endpoints": []
+  "Assets": []
 }
