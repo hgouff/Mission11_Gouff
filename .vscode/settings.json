@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "undefined/subscriptions/b7cb146e-6f88-4f46-9c14-8a3821b485cc/resourceGroups/appsvc_windows_centralus/providers/Microsoft.Web/sites/Mission13-Gouff",
+    "appService.deploySubpath": "backend/Mission11_Gouff.API/publish"
+}

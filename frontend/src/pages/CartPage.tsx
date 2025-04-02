@@ -59,33 +59,44 @@ function CartPage() {
                 <h3>Total: ${cart.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2)}</h3>
                 
                 {/* Checkout Button */}
-                <button className="btn btn-success mt-3">
-                    Checkout
-                </button>
+                <button
+                className="btn mt-3"
+                style={{
+                    backgroundColor: "#E6F7E6", // Very light green
+                    color: "black",
+                    border: "1px solid #d1d5db",
+                    transition: "background-color 0.3s ease",
+                    padding: "8px 16px",
+                    borderRadius: "4px",
+                    cursor: "pointer",
+                }}
+                onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#D4EED4")}
+                onMouseOut={(e) => (e.currentTarget.style.backgroundColor = "#E6F7E6")}
+            >
+                Checkout
+            </button>
+
             </div>
+            <br></br>
 
             {/* Continue Browsing Button with Styling */}
             <button
-                onClick={() => navigate('/books')}
-                className="btn btn-outline-primary mt-3" // Style with a border and custom look
-                style={{
-                    padding: "10px 20px", 
-                    fontSize: "16px", 
-                    borderRadius: "5px", 
-                    transition: "background-color 0.3s, color 0.3s",
-                    marginLeft: "10px"
-                }}
-                onMouseOver={(e) => {
-                    e.currentTarget.style.backgroundColor = "#E0F7FA"; // Light blue background on hover
-                    e.currentTarget.style.color = "#007BFF"; // Change text color on hover
-                }}
-                onMouseOut={(e) => {
-                    e.currentTarget.style.backgroundColor = "transparent"; // Revert back to original state
-                    e.currentTarget.style.color = "#007BFF";
-                }}
-            >
-                Continue Browsing
-            </button>
+            onClick={() => navigate('/books')}
+            style={{
+                backgroundColor: "#F0F8FF",
+                color: "black",
+                border: "1px solid #d1d5db",
+                transition: "background-color 0.3s ease",
+                padding: "8px 16px",
+                borderRadius: "4px",
+                cursor: "pointer",
+            }}
+            onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#E0EFFB")}
+            onMouseOut={(e) => (e.currentTarget.style.backgroundColor = "#F0F8FF")}
+        >
+            Continue Browsing
+        </button>
+
         </>
     );
 }
