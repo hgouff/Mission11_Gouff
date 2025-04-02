@@ -27,6 +27,8 @@ builder.Services.AddCors(options =>
         });
 });
 
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -37,9 +39,9 @@ if (app.Environment.IsDevelopment())
 }
 
 //enables cores to be used by the rest of the application
-app.UseCors("AllowFrontend");
-
 app.UseHttpsRedirection();
+
+app.UseCors("AllowReactApp");
 
 app.UseAuthorization();
 
