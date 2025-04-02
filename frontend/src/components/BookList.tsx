@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { Book } from "../types/Book"; // Imports from the Types file
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext"; // Import Cart Context
+import { fetchBooks } from "../api/BooksAPI";
+import Pagination from "./Pagination";
 
 function BookList({ selectedCategories }: { selectedCategories: string[] }) {
     // State variables
@@ -12,53 +14,76 @@ function BookList({ selectedCategories }: { selectedCategories: string[] }) {
     const [sortByTitle, setSortByTitle] = useState<boolean>(false);
     const navigate = useNavigate();
     const { addToCart } = useCart(); // Get addToCart function from context
+    const [error, setError] = useState<string | null>(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const fetchBooks = async () => {
-            const categoryParams = selectedCategories
-                .map((cat) => `bookTypes=${encodeURIComponent(cat)}`)
-                .join("&");
+        const loadBooks = async () => {
+            try{
+                setLoading(true);
+                const data = await fetchBooks(pageSize, pageNum, selectedCategories, sortByTitle);
+            
 
-            const response = await fetch(
-                `https://localhost:5000/api/Book/AllBooks?pageHowMany=${pageSize}&pageNum=${pageNum}&sortByTitleAsc=${sortByTitle}${
-                    selectedCategories.length ? `&${categoryParams}` : ""
-                }`,
-                {
-                    credentials: "include",
-                }
-            ); // Pulling data from the backend
-            const data = await response.json();
+
             setBooks(data.books);
             setTotalPages(Math.ceil(data.totalNumBooks / pageSize)); // Fix calculation
+            }
+            catch(error){
+                setError((error as Error).message)
+            }
+            finally{
+                setLoading(false);
+            }
         };
-        fetchBooks();
+        loadBooks();
     }, [pageSize, pageNum, sortByTitle, selectedCategories]); // Dependencies
+
+    if (loading) return <p>loading projects...</p>
+    if (error) return <p className="text-red-500">Error: {error}</p>;
 
     return (
         <>
             <div className="d-flex justify-content-center mt-3">
-                <button
-                    className="btn me-2"
-                    style={{
-                        backgroundColor: sortByTitle ? "#DCEEFF" : "transparent",
-                        color: sortByTitle ? "black" : "#007BFF",
-                        border: "1px solid #007BFF",
-                        transition: "background-color 0.3s ease",
-                    }}
-                    onClick={() => {
-                        setSortByTitle((prev) => !prev);
-                        setPageNum(1); // Reset to first page when sorting changes
-                    }}
-                    onMouseOver={(e) =>
-                        (e.currentTarget.style.backgroundColor = "#C7E0FF")
-                    }
-                    onMouseOut={(e) =>
-                        (e.currentTarget.style.backgroundColor = sortByTitle ? "#DCEEFF" : "transparent")
-                    }
-                >
-                    Sort by Title {sortByTitle ? "(A-Z)" : ""}
-                </button>
-            </div>
+    <button
+        className="btn me-2"
+        style={{
+            backgroundColor: "#F0F8FF",
+            color: "black",
+            border: "1px solid #d1d5db",
+            transition: "background-color 0.3s ease",
+            padding: "8px 16px",
+            borderRadius: "4px",
+            cursor: "pointer",
+        }}
+        onClick={() => {
+            setSortByTitle((prev) => !prev);
+            setPageNum(1); // Reset to first page when sorting changes
+        }}
+        onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#E0EFFB")}
+        onMouseOut={(e) => (e.currentTarget.style.backgroundColor = "#F0F8FF")}
+    >
+        Sort by Title {sortByTitle ? "(A-Z)" : ""}
+    </button>
+
+    <button
+            onClick={() => navigate('/adminbooks')}
+            style={{
+                backgroundColor: "#F0F8FF",
+                color: "black",
+                border: "1px solid #d1d5db",
+                transition: "background-color 0.3s ease",
+                padding: "8px 16px",
+                borderRadius: "4px",
+                cursor: "pointer",
+            }}
+            onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#E0EFFB")}
+            onMouseOut={(e) => (e.currentTarget.style.backgroundColor = "#F0F8FF")}
+        >
+            Admin Page
+        </button>
+
+</div>
+
 
             <br />
             <br />
@@ -104,58 +129,26 @@ function BookList({ selectedCategories }: { selectedCategories: string[] }) {
                             Add To Cart
                         </button>
                     </div>
+
+                
                 </div>
-            ))}
+            ))}   
+            
+             <Pagination
+            currentPage={pageNum}
+            totalPages={totalPages}
+            pageSize={pageSize}
+            onPageChange={setPageNum}
+            onPageSizeChange={(newSize)=>{ 
+                setPageSize(newSize);
+                setPageNum(1);
+            }}
+            
+                    />
             <br />
             <br />
 
-            {/* Pagination */}
-            <div className="d-flex justify-content-center mt-3">
-                <button
-                    className="btn btn-outline-primary me-2"
-                    disabled={pageNum === 1}
-                    onClick={() => setPageNum(pageNum - 1)}
-                >
-                    Previous
-                </button>
-
-                {[...Array(totalPages)].map((_, index) => (
-                    <button
-                        key={index + 1}
-                        className={`btn ${pageNum === index + 1 ? "btn-primary" : "btn-outline-primary"} me-1`}
-                        onClick={() => setPageNum(index + 1)}
-                        disabled={pageNum === index + 1}
-                    >
-                        {index + 1}
-                    </button>
-                ))}
-
-                <button
-                    className="btn btn-outline-primary ms-2"
-                    disabled={pageNum === totalPages}
-                    onClick={() => setPageNum(pageNum + 1)}
-                >
-                    Next
-                </button>
-            </div>
-
-            <br />
-            <br />
-            <div className="form-group">
-                <label className="me-2">Results per page:</label>
-                <select
-                    className="form-select w-auto d-inline-block"
-                    value={pageSize}
-                    onChange={(p) => {
-                        setPageSize(Number(p.target.value));
-                        setPageNum(1);
-                    }}
-                >
-                    <option value="5">5</option>
-                    <option value="10">10</option>
-                    <option value="20">20</option>
-                </select>
-            </div>
+            
         </>
     );
 }
