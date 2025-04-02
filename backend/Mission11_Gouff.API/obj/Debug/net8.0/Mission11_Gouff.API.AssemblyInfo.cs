@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Mission11_Gouff.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b24dc89dbc747f2effc3aa2443dda932f0aa2388")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+afafbd82052dee9768d851af7e95a5e258944dd5")]
 [assembly: System.Reflection.AssemblyProductAttribute("Mission11_Gouff.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Mission11_Gouff.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
