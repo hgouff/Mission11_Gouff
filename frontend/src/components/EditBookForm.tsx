@@ -8,7 +8,7 @@ interface EditBookFormProps {
     onCancel: () => void;
 }
 
-const EditBookForm = ({ book, onSuccess, onCancel }: EditBookFormProps) => {
+const EditBookForm = ({ book, onSuccess }: EditBookFormProps) => {
     const [formData, setFormData] = useState<Book>({ ...book });
 
     useEffect(() => {
@@ -72,23 +72,7 @@ const EditBookForm = ({ book, onSuccess, onCancel }: EditBookFormProps) => {
                 >
                     Save Changes
                 </button>
-                <button 
-                    type="button" 
-                    onClick={onCancel} 
-                    style={{
-                        backgroundColor: "#F0F8FF",
-                        color: "black",
-                        border: "1px solid #d1d5db",
-                        transition: "background-color 0.3s ease",
-                        padding: "8px 16px",
-                        borderRadius: "4px",
-                        cursor: "pointer",
-                    }}
-                    onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#E0EFFB")}
-                    onMouseOut={(e) => (e.currentTarget.style.backgroundColor = "#F0F8FF")}
-                >
-                    Cancel
-                </button>
+                
             </div>
         </form>
     );
