@@ -66,6 +66,7 @@ function BookList({ selectedCategories }: { selectedCategories: string[] }) {
     </button>
 
     <button
+            className="btn me-2"
             onClick={() => navigate('/adminbooks')}
             style={{
                 backgroundColor: "#F0F8FF",
