@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 import WelcomeBand from "../components/WelcomeBand";
 import { useCart } from "../context/CartContext";
 import { CartItem } from "../types/CartItem"; // Import the CartItem type
@@ -7,6 +8,10 @@ import CartSummary from "../components/CartSummary";
 function CartPage() {
     const navigate = useNavigate();
     const { cart, removeFromCart } = useCart();
+
+    useEffect(() => {
+        document.title = "Cart Page";
+    }, []);
 
     return (
         <>

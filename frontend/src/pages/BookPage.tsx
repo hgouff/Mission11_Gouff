@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import WelcomeBand from "../components/WelcomeBand";
 import CategoryFilter from "../components/CategoryFilter";
 import CookieConsent from "react-cookie-consent";
@@ -14,6 +14,10 @@ function BookPage() {
     const { title, bookID, price } = useParams();
     const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
     const { addToCart } = useCart();
+
+    useEffect(() => {
+        document.title = "Book Page";
+    }, []);
 
     const handleAddToCart = () => {
         const newItem: CartItem = {

@@ -33,6 +33,10 @@ const AdminBooksPage = () => {
         loadBooks();
     }, [pageSize, pageNum]);
 
+    useEffect(() => {
+        document.title = "Admin Books Page";
+    }, []);
+
     const handleDelete = async (bookID: number) => {
         const confirmDelete = window.confirm("Are you sure you want to delete this book?");
         if (!confirmDelete) return;
