@@ -43,7 +43,7 @@ function BookList({ selectedCategories }: { selectedCategories: string[] }) {
 
     return (
         <>
-            <div className="d-flex justify-content-center mt-3">
+            <div className="d-flex justify-content-center mt-3" style={{ justifyContent: "center" }}>
     <button
         className="btn me-2"
         style={{
@@ -89,7 +89,7 @@ function BookList({ selectedCategories }: { selectedCategories: string[] }) {
             <br />
             {/* Goes through all of the variables for each book in the list */}
             {books.map((b) => (
-                <div id="bookCard" className="card" key={b.bookID}>
+                <div id="bookCard" className="card" style={{ maxWidth: "90%", margin: "0 auto" }} key={b.bookID}>
                     <h3 className="card-title">{b.title}</h3>
                     <div className="card-body">
                         <ul className="list-unstyled">
