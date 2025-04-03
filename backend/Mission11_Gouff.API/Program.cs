@@ -17,10 +17,10 @@ builder.Services.AddDbContext<BookDbContext>(options=>
 //
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowFrontend",
+    options.AddPolicy("AllowReactApp",
         policy =>
         {
-            policy.WithOrigins("http://localhost:3000")
+            policy.AllowAnyOrigin()
                 .AllowCredentials()
                 .AllowAnyHeader()
                 .AllowAnyMethod();
